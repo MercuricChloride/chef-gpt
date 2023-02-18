@@ -1,5 +1,5 @@
-// make a default next js api route
-//
+import { NextApiRequest, NextApiResponse } from "next";
+
 function prompt(ingredients: string) {
   return `\
   Assuming I have normal seasonings in my kitchen create a meal with at least one course, showcase the instructions on how to cook it, using some of the following ingredients
@@ -12,8 +12,7 @@ function prompt(ingredients: string) {
 }
 
 async function getRecipe(ingredients: string, apiKey: string) {
-  console.log(prompt(ingredients));
-  const response = await fetch("https://api.openai.com/v1/completions", {
+   return await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -27,14 +26,12 @@ async function getRecipe(ingredients: string, apiKey: string) {
       //stop: "\n", // Stop generating text when a newline character is encountered
     }),
   });
-
-  return await response.json();
 }
 
-export default async function handler(req: any, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // get the environment variables from env.local
   const apiKey = process.env.API_KEY;
-  const ingredients = req.body.ingredients;
+  const ingredients: string = req.body.ingredients as string;
 
   // call the getRecipe function
   // and wait for the response

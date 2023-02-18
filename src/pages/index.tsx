@@ -10,6 +10,25 @@ const Home: NextPage = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const fetchRecipe = async () => {
+    setIsLoading(true);
+    //const data = await getRecipe(ingredients);
+    // query the /query endpoint with the ingredients
+    const queryResponse = await fetch("/api/query", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ingredients,
+      }),
+    });
+    const data = await queryResponse.json();
+    setIsLoading(false);
+
+    setResponse(data.choices[0].text);
+  };
+
   return (
     <>
       <Head>
@@ -19,51 +38,45 @@ const Home: NextPage = () => {
       </Head>
       <main className={styles.main}>
         <div className={styles.container}>
-          <h1 className={styles.title}>
-            Welcome to Chef-GPT 🤖👨‍🍳
-          </h1>
+          <h1 className={styles.title}>Welcome to Chef-GPT 🤖👨‍🍳</h1>
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>
-            This is a simple app that uses the GPT-3 API to generate recipes based on a list of ingredients.
+              This is a simple app that uses the GPT-3 API to generate recipes
+              based on a list of ingredients.
             </h3>
-            <h3 className={styles.cardTitle}>
-              Ingredients
-            </h3>
+            <h3 className={styles.cardTitle}>Ingredients</h3>
             <input
-            className={styles.textInput}
-            onChange={(e) => {
-              setIngredients(e.target.value);
-            }} />
-            <button className={styles.loginButton}
-            onClick={async () => {
-              setIsLoading(true);
-              //const data = await getRecipe(ingredients);
-              // query the /query endpoint with the ingredients
-              const queryResponse = await fetch("/api/query", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  ingredients,
-                }),
-              });
-              const data = await queryResponse.json();
-              setIsLoading(false);
-
-              setResponse(data.choices[0].text);
-            }}
-            >{ isLoading ? "Loading" : "Generate Recipe"}</button>
+              className={styles.textInput}
+              onChange={(e) => {
+                setIngredients(e.target.value);
+              }}
+            />
+            <button
+              className={styles.loginButton}
+              onClick={() => {
+                fetchRecipe().catch((err) => {
+                  console.error(err);
+                });
+              }}
+            >
+              {isLoading ? "Loading" : "Generate Recipe"}
+            </button>
           </div>
-          {response &&
-          <div className={styles.recipeCard}>
-            <h3 className={styles.cardTitle}>
-              Generated Recipe
-            </h3>
-            {response.split("\n").filter((line) => line!== "").map((line, index) => {
-              return <p key={index} className={styles.cardText}>{line}</p>
-            })}
-          </div>}
+          {response && (
+            <div className={styles.recipeCard}>
+              <h3 className={styles.cardTitle}>Generated Recipe</h3>
+              {response
+                .split("\n")
+                .filter((line) => line !== "")
+                .map((line, index) => {
+                  return (
+                    <p key={index} className={styles.cardText}>
+                      {line}
+                    </p>
+                  );
+                })}
+            </div>
+          )}
         </div>
       </main>
     </>
