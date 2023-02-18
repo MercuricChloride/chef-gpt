@@ -60,8 +60,8 @@ const Home: NextPage = () => {
             <h3 className={styles.cardTitle}>
               Generated Recipe
             </h3>
-            {response.split("\n").filter((line) => line!== "").map((line) => {
-              return <p className={styles.cardText}>{line}</p>
+            {response.split("\n").filter((line) => line!== "").map((line, index) => {
+              return <p key={index} className={styles.cardText}>{line}</p>
             })}
           </div>}
         </div>
