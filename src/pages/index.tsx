@@ -14,19 +14,23 @@ const Home: NextPage = () => {
     setIsLoading(true);
     //const data = await getRecipe(ingredients);
     // query the /query endpoint with the ingredients
-    const queryResponse = await fetch("/api/query", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ingredients,
-      }),
-    });
-    const data = await queryResponse.json();
-    setIsLoading(false);
+    try {
+      const queryResponse = await fetch("/api/query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ingredients,
+        }),
+      });
+      const data = await queryResponse.json();
+      setIsLoading(false);
 
-    setResponse(data.choices[0].text);
+      setResponse(data.choices[0].text);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
