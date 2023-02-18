@@ -12,6 +12,7 @@ const Home: NextPage = () => {
 
   const fetchRecipe = async () => {
     setIsLoading(true);
+    // hey there
     try {
       const queryResponse = await fetch("/api/query", {
         method: "POST",
