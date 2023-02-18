@@ -38,11 +38,11 @@ const Home: NextPage = () => {
       </Head>
       <main className={styles.main}>
         <div className={styles.container}>
-          <h1 className={styles.title}>Welcome to Chef-GPT 🤖👨‍🍳</h1>
+          <h1 className={styles.title}>Chef-GPT 🤖👨‍🍳</h1>
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>
-              This is a simple app that uses the GPT-3 API to generate recipes
-              based on a list of ingredients.
+              A simple app that uses the GPT-3 API to generate recipes based on
+              a list of ingredients.
             </h3>
             <h3 className={styles.cardTitle}>Ingredients</h3>
             <input
@@ -51,14 +51,7 @@ const Home: NextPage = () => {
                 setIngredients(e.target.value);
               }}
             />
-            <button
-              className={styles.loginButton}
-              onClick={() => {
-                fetchRecipe().catch((err) => {
-                  console.error(err);
-                });
-              }}
-            >
+            <button className={styles.loginButton} onClick={fetchRecipe}>
               {isLoading ? "Loading" : "Generate Recipe"}
             </button>
           </div>

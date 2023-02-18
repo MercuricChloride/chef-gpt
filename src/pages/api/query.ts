@@ -12,7 +12,7 @@ function prompt(ingredients: string) {
 }
 
 async function getRecipe(ingredients: string, apiKey: string) {
-   return await fetch("https://api.openai.com/v1/completions", {
+   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,6 +26,7 @@ async function getRecipe(ingredients: string, apiKey: string) {
       //stop: "\n", // Stop generating text when a newline character is encountered
     }),
   });
+  return await response.json();
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
