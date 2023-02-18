@@ -12,8 +12,6 @@ const Home: NextPage = () => {
 
   const fetchRecipe = async () => {
     setIsLoading(true);
-    //const data = await getRecipe(ingredients);
-    // query the /query endpoint with the ingredients
     try {
       const queryResponse = await fetch("/api/query", {
         method: "POST",

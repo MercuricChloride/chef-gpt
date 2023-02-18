@@ -32,7 +32,7 @@ async function getRecipe(ingredients: string, apiKey: string) {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // get the environment variables from env.local
   const apiKey = process.env.API_KEY;
-  const ingredients: string = req.body.ingredients as string;
+  const ingredients = req.body.ingredients;
 
   // call the getRecipe function
   // and wait for the response
