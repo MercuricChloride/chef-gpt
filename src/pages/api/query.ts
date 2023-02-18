@@ -31,8 +31,7 @@ console.log(prompt(ingredients));
   return await response.json();
 }
 
-//@ts-ignore
-export default async function handler(req, res) {
+export default async function handler(req:any, res:any) {
 
   // get the environment variables from env.local
   const apiKey = process.env.API_KEY;
