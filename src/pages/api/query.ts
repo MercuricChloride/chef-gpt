@@ -8,11 +8,11 @@ function prompt(ingredients: string) {
 
   [INGREDIENTS]: ${ingredients}
 
-  [RECIPE]:`
-};
+  [RECIPE]:`;
+}
 
 async function getRecipe(ingredients: string, apiKey: string) {
-console.log(prompt(ingredients));
+  console.log(prompt(ingredients));
   const response = await fetch("https://api.openai.com/v1/completions", {
     method: "POST",
     headers: {
@@ -26,13 +26,12 @@ console.log(prompt(ingredients));
       n: 1, // The number of completions to generate
       //stop: "\n", // Stop generating text when a newline character is encountered
     }),
-  })
-  
+  });
+
   return await response.json();
 }
 
-export default async function handler(req:any, res:any) {
-
+export default async function handler(req: any, res: any) {
   // get the environment variables from env.local
   const apiKey = process.env.API_KEY;
   const ingredients = req.body.ingredients;
@@ -41,7 +40,7 @@ export default async function handler(req:any, res:any) {
   // and wait for the response
   // then send the response to the client
   // as a json object
-  if(!apiKey) {
+  if (!apiKey) {
     throw new Error("API_KEY is not defined");
   }
 
@@ -49,4 +48,3 @@ export default async function handler(req:any, res:any) {
 
   res.status(200).json(response);
 }
-
